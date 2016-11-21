@@ -13,10 +13,4 @@ public class WaffleManagerTest
     {
         assertNotNull(waffleManager.getConnection());
     }
-
-    @Test
-    public void checkAllWaffles()
-    {
-        WaffleManager.
-    }
 }

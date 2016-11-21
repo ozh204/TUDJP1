@@ -50,8 +50,4 @@ public class WaffleManager
     Connection getConnection() {
         return connection;
     }
-
-    public void setGetAllWafflesStmt(PreparedStatement getAllWafflesStmt) {
-        this.getAllWafflesStmt = getAllWafflesStmt;
-    }
 }
