@@ -1,7 +1,5 @@
 package service;
 
-import domain.Waffle;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import domain.Waffle;
 
 public class WaffleManager
 {
@@ -41,13 +41,81 @@ public class WaffleManager
 
             addWaffleStmt = connection.prepareStatement("INSERT INTO Waffle (type, price, topping, sugar, cream, fruit) VALUES (?, ?, ?, ?, ?, ?)");
             deleteAllWafflesStmt = connection.prepareStatement("DELETE FROM Waffle");
-            getAllWafflesStmt = connection.prepareStatement("SELECT id, type, topping, sugar, cream, fruit FROM Waffle");
+            getAllWafflesStmt = connection.prepareStatement("SELECT id, price, type, topping, sugar, cream, fruit FROM Waffle");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    Connection getConnection() {
+    
+    Connection getConnection() 
+    {
         return connection;
+    }
+    
+    void clearWaffles() 
+    {
+		try 
+		{
+			deleteAllWafflesStmt.executeUpdate();
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+    }
+    
+    public int addWaffle(Waffle waffle)
+    {
+    	int count = 0;
+    	
+    	try 
+    	{
+			addWaffleStmt.setString(1, waffle.getType());
+			addWaffleStmt.setDouble(2, waffle.getPrice());
+			addWaffleStmt.setString(3, waffle.getTopping());
+			addWaffleStmt.setString(4, waffle.getSugar());
+			addWaffleStmt.setString(5, waffle.getCream());
+			addWaffleStmt.setString(6, waffle.getFruit());
+			
+			count = addWaffleStmt.executeUpdate();
+		} 
+    	catch (SQLException e) 
+    	{
+			e.printStackTrace();
+		}
+    	
+    	return count;
+    }
+    
+    public List<Waffle> getAllWaffles() 
+    {
+		List<Waffle> waffles = new ArrayList<Waffle>();
+
+		try 
+		{
+			ResultSet rs = getAllWafflesStmt.executeQuery();
+
+			while (rs.next()) 
+			{
+				Waffle waffle = new Waffle();
+				
+				waffle.setType(rs.getString("type"));
+				waffle.setPrice(rs.getDouble("price"));
+				waffle.setTopping(rs.getString("topping"));
+				waffle.setSugar(rs.getString("sugar"));
+				waffle.setCream(rs.getString("cream"));
+				waffle.setFruit(rs.getString("fruit"));
+				
+				waffles.add(waffle);
+			}
+
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		System.out.println("##############"+waffles.size()+"#############");
+		return waffles;
     }
 }
