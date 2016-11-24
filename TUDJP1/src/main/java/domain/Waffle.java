@@ -3,6 +3,7 @@ package domain;
 public class Waffle
 {
 	private Integer id;
+	private Integer id_order;
     private String type = "Suchy";
     private double price = 3.5;
     private String topping = "Brak";
@@ -12,10 +13,11 @@ public class Waffle
 
     public Waffle() {super();}
 
-    public Waffle(String type, double price, String topping, String sugar, String cream, String fruit) 
+    public Waffle(String type, Integer id_order, double price, String topping, String sugar, String cream, String fruit)
     {
 		super();
 		this.type = type;
+		this.id_order = id_order;
 		this.price = price;
 		this.topping = topping;
 		this.sugar = sugar;
@@ -25,6 +27,14 @@ public class Waffle
 
 	public Integer getId() {
 		return id;
+	}
+
+	public Integer getId_order() {
+		return id_order;
+	}
+
+	public void setId_order(Integer id_order) {
+		this.id_order = id_order;
 	}
 
 	public void setId(Integer id) {
