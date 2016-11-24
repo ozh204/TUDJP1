@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -19,10 +20,18 @@ public class WaffleManagerTest
     public void checkAdding()
     {
         waffleManager.clearWaffles();
-        Waffle waffle = new Waffle("Suchy",2,3.5,"Brak","Nie","Nie","Brak");
+
+        OrderManager orderManager = new OrderManager();
+        Order order = new Order(Date.valueOf("1999-10-10"),3.5);
+        assertEquals(1,orderManager.addOrder(order));
+        List<Order> orders = orderManager.getAllOrders();
+        order = orders.get(0);
+        Integer foreign = order.getId();
+
+        Waffle waffle = new Waffle("Suchy",foreign,3.5,"Brak","Nie","Nie","Brak");
         assertEquals(1,waffleManager.addWaffle(waffle));
 
-        Waffle waffle2 = new Waffle("Z cukrem pudrem",3,4,"Brak","Tak","Nie","Brak");
+        Waffle waffle2 = new Waffle("Z cukrem pudrem",foreign,4,"Brak","Tak","Nie","Brak");
         assertEquals(1,waffleManager.addWaffle(waffle2));
     }
 
